@@ -3,6 +3,8 @@ package database
 import (
 	"database/sql"
 	"devbook-api/internal/config"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func Connect() (*sql.DB, error) {

@@ -13,32 +13,22 @@ func NewUsersRepository(db *sql.DB) *Users {
 	return &Users{db}
 }
 
-func (repository *Users) Create(user *model.User) (uint64, error) {
-	statement, err := repository.db.Prepare(
-		"INSERT INTO users (name, nickname, email, password) VALUES (?, ?, ?, ?)",
-	)
+func (repository *Users) Create(user *model.User) (*model.User, error) {
+	query := "INSERT INTO users (name, nickname, email, password) VALUES ($1, $2, $3, $4)"
 
-	if err != nil {
-		return 0, err
-	}
+	var userCreated model.User = *user
 
-	defer statement.Close()
-
-	result, err := statement.Exec(
+	err := repository.db.QueryRow(
+		query,
 		user.Name,
 		user.Nickname,
 		user.Email,
 		user.Password,
-	)
+	).Scan(&userCreated.ID, &userCreated.CreatedAt)
 
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
-	lastID, err := result.LastInsertId()
-	if err != nil {
-		return 0, err
-	}
-
-	return uint64(lastID), nil
+	return &userCreated, nil
 }

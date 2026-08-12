@@ -27,7 +27,7 @@ func Load() {
 	}
 
 	DataSourceName = fmt.Sprintf(
-		"%s:%s@tcp(localhost:3306)/%s?charset=utf8&parseTime=True&loc=Local",
+		"postgres://%s:%s@localhost:5432/%s?sslmode=disable",
 		os.Getenv("POSTGRES_USER"),
 		os.Getenv("POSTGRES_PASSWORD"),
 		os.Getenv("POSTGRES_DB"),

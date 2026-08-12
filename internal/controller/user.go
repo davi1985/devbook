@@ -30,12 +30,12 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repo := repository.NewUsersRepository(db)
-	userID, err := repo.Create(&user)
+	userCreated, err := repo.Create(&user)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	w.Write([]byte(fmt.Sprintf("userID: %d", userID)))
+	w.Write([]byte(fmt.Sprintf("userID: %d", userCreated.ID)))
 }
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {

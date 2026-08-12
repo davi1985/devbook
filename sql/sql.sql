@@ -1,13 +1,12 @@
-CREATE DATABASE IF NOT EXISTS devbook;
-USE devbook;
+CREATE DATABASE devbook_api;
 
 DROP TABLE IF EXISTS users;
 
-CREATE TABLE users(
-  id int auto_increment primary key,
-  name varchar(50) not null,
-  nickname varchar(50) not null unique,
-  email varchar(50) not null unique,
-  password varchar(20) not null unique,
-  createdAt timestamp default current_timestamp()
-) ENGINE=INNODB;
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  nickname VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

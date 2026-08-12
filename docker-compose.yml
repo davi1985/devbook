@@ -2,18 +2,17 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0
-    container_name: mysql_db
+    image: postgres:15-alpine
+    container_name: postgres_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: devbook_api
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      POSTGRES_DB: devbook_api
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  mysql_data:
+  postgres_data:

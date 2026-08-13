@@ -5,14 +5,13 @@ import (
 	"devbook-api/internal/model"
 	"devbook-api/internal/repository"
 	"encoding/json"
-	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
-	requestBody, err := ioutil.ReadAll(r.Body)
+	requestBody, err := io.ReadAll(r.Body)
 
 	if err != nil {
 		log.Fatal(err)
@@ -35,7 +34,11 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	w.Write([]byte(fmt.Sprintf("userID: %d", userCreated.ID)))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	if err = json.NewEncoder(w).Encode(userCreated); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
